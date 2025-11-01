@@ -1,0 +1,12 @@
+{
+  "name": "plugin-formatter",
+  "version": "1.0.0",
+  "description": "Formats plugin folders and files according to Claude Code plugin marketplace guidelines",
+  "author": {
+    "name": "Jonathan"
+  },
+  "license": "MIT",
+  "keywords": ["formatting", "validation", "plugin-development", "tools"],
+  "agents": "./agents/plugin-formatter-tutor.md",
+  "skills": "./skills"
+}

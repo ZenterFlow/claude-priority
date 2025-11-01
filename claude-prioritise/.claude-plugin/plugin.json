@@ -1,0 +1,12 @@
+{
+  "name": "claude-prioritise",
+  "version": "1.0.0",
+  "description": "One-command project status, priority surfacing and persistent backlog grooming for development workflows",
+  "author": {
+    "name": "Jonathan"
+  },
+  "license": "MIT",
+  "keywords": ["project-management", "backlog", "status", "github", "tools"],
+  "agents": "./agents/claude-prioritise-tutor.md",
+  "skills": "./skills"
+}
