@@ -1,0 +1,10 @@
+{
+  "name": "{{skill-name}}",
+  "description": "{{description}}",
+  "version": "{{version}}",
+  "triggers": [
+    "{{trigger-1}}",
+    "{{trigger-2}}",
+    "{{trigger-3}}"
+  ]
+}

@@ -1,0 +1,22 @@
+# Plugin: {{plugin-title}}
+
+**{{subtitle}}**
+
+## What This Plugin Teaches
+{{topics-list}}
+
+## Skills Included
+{{skills-list}}
+
+## Agent
+**{{agent-name}}** - {{agent-description}}
+
+## How to Use
+Activate by asking questions like:
+{{example-questions}}
+
+## Status
+{{status}} - {{skill-count}} skills implemented
+
+## Version
+{{version}} ({{date}})

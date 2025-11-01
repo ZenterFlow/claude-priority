@@ -1,0 +1,15 @@
+---
+name: {{skill-name}}
+description: {{description}}
+license: {{license}}
+---
+# SKILL: {{skill-name}}
+{{purpose-statement}}
+
+Triggers
+- "{{trigger-1}}"
+- "{{trigger-2}}"
+- "{{trigger-3}}"
+
+Behaviour
+{{behaviour-description}}

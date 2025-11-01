@@ -1,0 +1,15 @@
+{
+  "name": "{{plugin-name}}",
+  "version": "{{version}}",
+  "description": "{{description}}",
+  "author": {
+    "name": "{{author-name}}",
+    "url": "{{author-url}}"
+  },
+  "homepage": "{{homepage-url}}",
+  "repository": "{{repository-url}}",
+  "license": "{{license}}",
+  "keywords": [{{keywords}}],
+  "agents": "./agents/{{plugin-name}}-tutor.md",
+  "skills": "./skills"
+}
