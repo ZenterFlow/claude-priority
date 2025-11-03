@@ -1,0 +1,52 @@
+{
+  "scenario": "Naming Convention Violations - FIXED",
+  "description": "Same plugin after formatter applied naming convention fixes",
+
+  "plugin_structure": {
+    "directory_name": "chart-basics",
+    "files": {
+      ".claude-plugin/plugin.json": {
+        "name": "chart-basics",
+        "version": "0.1.0",
+        "description": "Teaching chart fundamentals and symbols",
+        "author": {
+          "name": "NavigationMaster"
+        },
+        "keywords": ["charts", "navigation"],
+        "agents": "./agents/chart-basics-tutor.md",
+        "skills": "./skills"
+      },
+      "skills/symbol-spotter/skill.md": {
+        "frontmatter": {
+          "name": "symbol-spotter",
+          "description": "Identify chart symbols",
+          "license": "MIT"
+        },
+        "content": "# SKILL: symbol-spotter\n..."
+      },
+      "skills/depth-calculator/skill.md": {
+        "frontmatter": {
+          "name": "depth-calculator",
+          "description": "Calculate water depths",
+          "license": "MIT"
+        },
+        "content": "# SKILL: depth-calculator\n..."
+      }
+    }
+  },
+
+  "fixes_applied": [
+    "Renamed plugin directory: 'Chart_Basics' → 'chart-basics'",
+    "Updated plugin.json name: 'Chart_Basics' → 'chart-basics'",
+    "Converted author field: 'NavigationMaster' → {\"name\": \"NavigationMaster\"}",
+    "Renamed agent file: 'Chart_Basics-tutor.md' → 'chart-basics-tutor.md'",
+    "Renamed skill directory: 'Symbol-Spotter' → 'symbol-spotter'",
+    "Updated skill frontmatter: 'Symbol-Spotter' → 'symbol-spotter'",
+    "Updated skill title: 'Symbol-Spotter' → 'symbol-spotter'",
+    "Renamed skill directory: 'Depth_Calculator' → 'depth-calculator'",
+    "Updated skill frontmatter: 'Depth_Calculator' → 'depth-calculator'",
+    "Updated skill title: 'Depth_Calculator' → 'depth-calculator'"
+  ],
+
+  "validation_result": "✅ Plugin is now marketplace-compliant"
+}

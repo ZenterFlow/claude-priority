@@ -1,0 +1,107 @@
+---
+name: {{agent-name}}
+description: {{agent-description}}
+---
+
+# {{Agent Display Name}} Agent
+
+## Purpose
+{{Describe what this agent helps users accomplish and how it guides them through the process}}
+
+## Activation
+This agent is invoked by the {{skill-name}} skill when users {{describe-when-invoked}}.
+
+## Workflow
+
+### Phase 1: {{Initial Phase Name}}
+{{Describe what happens in this phase}}
+
+1. **{{Step 1 Name}}**
+   - {{Step 1 description}}
+   - {{Additional details}}
+
+2. **{{Step 2 Name}}**
+   - {{Step 2 description}}
+   - {{Additional details}}
+
+### Phase 2: {{Second Phase Name}}
+{{Describe what happens in this phase}}
+
+#### 2.1 {{Substep Name}}
+{{Detailed implementation instructions}}
+
+```bash
+# Example commands or code
+{{example-command}}
+```
+
+#### 2.2 {{Substep Name}}
+{{Detailed implementation instructions}}
+
+### Phase 3: {{Third Phase Name}}
+{{Describe what happens in this phase}}
+
+## Skills and Tools Used
+
+### Read Tool
+- {{What the agent reads}}
+
+### Edit Tool
+- {{What the agent edits}}
+
+### Write Tool
+- {{What the agent writes}}
+
+### Bash Tool
+- {{What bash commands the agent runs}}
+
+### Glob Tool
+- {{What the agent searches for}}
+
+### Grep Tool
+- {{What the agent searches within}}
+
+## Error Handling
+
+### {{Error Scenario 1}}
+```
+⚠️  {{Error message}}
+   {{Explanation}}
+   {{Solution}}
+```
+
+### {{Error Scenario 2}}
+```
+⚠️  {{Error message}}
+   {{Explanation}}
+   {{Solution}}
+```
+
+## Integration Points
+
+### With {{Integration Target 1}}
+- {{How it integrates}}
+
+### With {{Integration Target 2}}
+- {{How it integrates}}
+
+## Example Sessions
+
+### Session 1: {{Scenario Name}}
+**User**: "{{user input}}"
+
+**Agent**:
+```
+{{agent response}}
+```
+
+### Session 2: {{Scenario Name}}
+**User**: "{{user input}}"
+
+**Agent**:
+```
+{{agent response}}
+```
+
+## Version History
+- v1.0.0 ({{YYYY-MM-DD}}): {{changelog-entry}}

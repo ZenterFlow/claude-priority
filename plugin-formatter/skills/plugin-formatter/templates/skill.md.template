@@ -1,15 +1,49 @@
 ---
+# Frontmatter: YAML metadata between --- markers
+# name: Must match skill directory name exactly (lowercase-with-hyphens)
+# description: Brief description, 10-200 characters
+# license: Valid license identifier (MIT, Apache-2.0, GPL-3.0, BSD-3-Clause, CC-BY-SA, Unlicense)
 name: {{skill-name}}
 description: {{description}}
-license: {{license}}
+license: MIT
 ---
+
 # SKILL: {{skill-name}}
-{{purpose-statement}}
+# Title should match the skill name exactly
 
-Triggers
-- "{{trigger-1}}"
-- "{{trigger-2}}"
-- "{{trigger-3}}"
+{{Write a clear, concise purpose statement explaining what this skill does and what value it provides to users}}
 
-Behaviour
-{{behaviour-description}}
+## Triggers
+# Activation phrases that invoke this skill - be specific and natural
+- "{{trigger-phrase-1}}"
+- "{{trigger-phrase-2}}"
+- "{{trigger-phrase-3}}"
+
+## Behaviour
+# Detailed description of how the skill works, step-by-step
+
+### Step 1: {{First Action}}
+{{Describe what happens first}}
+
+### Step 2: {{Second Action}}
+{{Describe what happens next}}
+
+### Step 3: {{Third Action}}
+{{Describe the final outcome}}
+
+## Example Usage
+
+**User**: "{{example-trigger-phrase}}"
+
+**Skill**:
+```
+{{example-output-or-response}}
+```
+
+## Integration
+# Optional: Describe how this skill integrates with other tools or skills
+- Uses {{tool-name}} for {{purpose}}
+- Integrates with {{other-skill}} to {{achieve-goal}}
+
+## Version
+v1.0.0 - {{Release notes or changelog entry}}

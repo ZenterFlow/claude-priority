@@ -1,10 +1,27 @@
 {
+  "_comment": "manifest.json is OPTIONAL - only create if you need additional metadata beyond skill.md",
+  "_comment_name": "Must match skill directory name and frontmatter name (lowercase-with-hyphens)",
   "name": "{{skill-name}}",
+
+  "_comment_description": "Brief description, 10-200 characters. Should match skill.md frontmatter",
   "description": "{{description}}",
-  "version": "{{version}}",
+
+  "_comment_version": "Semantic versioning for the skill: MAJOR.MINOR.PATCH",
+  "version": "1.0.0",
+
+  "_comment_triggers": "Array of activation phrases - these help Claude Code understand when to invoke this skill",
   "triggers": [
-    "{{trigger-1}}",
-    "{{trigger-2}}",
-    "{{trigger-3}}"
-  ]
+    "{{natural-language-trigger-1}}",
+    "{{natural-language-trigger-2}}",
+    "{{natural-language-trigger-3}}"
+  ],
+
+  "_comment_dependencies": "Optional: External tools or CLIs this skill requires",
+  "dependencies": {
+    "gh": "GitHub CLI for repository integration",
+    "git": "Git version control"
+  },
+
+  "_comment_tags": "Optional: Additional categorization beyond keywords",
+  "tags": ["category1", "category2"]
 }

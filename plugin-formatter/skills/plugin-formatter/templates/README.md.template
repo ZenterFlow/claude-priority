@@ -1,22 +1,87 @@
-# Plugin: {{plugin-title}}
+# {{Plugin Name}}
 
-**{{subtitle}}**
+**{{One-line description of what this plugin helps with}}**
 
 ## What This Plugin Teaches
-{{topics-list}}
+<!-- List 3-5 high-level topics or capabilities this plugin provides -->
+- {{Topic 1 - what users will learn or accomplish}}
+- {{Topic 2 - what users will learn or accomplish}}
+- {{Topic 3 - what users will learn or accomplish}}
+- {{Topic 4 - what users will learn or accomplish}}
 
 ## Skills Included
-{{skills-list}}
+<!-- Auto-generated list of all skills in skills/ directory -->
+<!-- Each skill should have: number, name, and brief description -->
+
+1. **{{skill-1-name}}**: {{skill-1-description}}
+2. **{{skill-2-name}}**: {{skill-2-description}}
+3. **{{skill-3-name}}**: {{skill-3-description}}
 
 ## Agent
-**{{agent-name}}** - {{agent-description}}
+<!-- Describe the interactive agent that guides users through complex workflows -->
+**{{agent-name}}**: {{agent-description}}
+
+The agent provides:
+- {{Agent capability 1}}
+- {{Agent capability 2}}
+- {{Agent capability 3}}
 
 ## How to Use
-Activate by asking questions like:
-{{example-questions}}
+
+### Installation
+```bash
+# Add marketplace (if not already added)
+/plugin marketplace add /path/to/marketplace
+
+# Install plugin
+/plugin install {{plugin-name}}@{{marketplace-name}}
+
+# Enable plugin
+/plugin enable {{plugin-name}}
+```
+
+### Activation
+Activate by asking questions or using phrases like:
+- "{{example-question-1}}"
+- "{{example-question-2}}"
+- "{{example-question-3}}"
+
+### Example Session
+```
+User: "{{example-trigger}}"
+
+Plugin: {{example-response-or-output}}
+```
+
+## File Structure
+```
+{{plugin-name}}/
+├── .claude-plugin/
+│   └── plugin.json
+├── agents/
+│   └── {{agent-name}}.md
+├── skills/
+│   ├── {{skill-1}}/
+│   │   └── skill.md
+│   ├── {{skill-2}}/
+│   │   └── skill.md
+│   └── {{skill-3}}/
+│       └── skill.md
+├── plugin.md
+└── README.md
+```
 
 ## Status
-{{status}} - {{skill-count}} skills implemented
+<!-- Current development status -->
+{{Active|Beta|Development}} - {{X}} skills, {{Y}} agent{{s}}
+
+## Dependencies
+<!-- Optional: List any external tools or CLIs required -->
+- {{dependency-1}} ({{why-needed}})
+- {{dependency-2}} ({{why-needed}})
 
 ## Version
-{{version}} ({{date}})
+v{{X.Y.Z}} ({{YYYY-MM-DD}})
+
+## License
+{{MIT|Apache-2.0|GPL-3.0|etc.}}

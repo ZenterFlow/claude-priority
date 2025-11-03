@@ -1,0 +1,21 @@
+{
+  "name": "{{marketplace-name}}",
+  "owner": {
+    "name": "{{owner-name}}"
+  },
+  "description": "{{marketplace-description}}",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "{{plugin-name}}",
+      "source": "./{{plugin-directory}}",
+      "description": "{{plugin-description}}",
+      "version": "1.0.0",
+      "author": {
+        "name": "{{author-name}}"
+      },
+      "keywords": ["{{keyword-1}}", "{{keyword-2}}", "{{keyword-3}}"],
+      "category": "{{category}}"
+    }
+  ]
+}

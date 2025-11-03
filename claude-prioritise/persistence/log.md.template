@@ -1,0 +1,26 @@
+# Activity Log
+
+This file tracks all claude-prioritise plugin activity across sessions.
+
+## How This Works
+- Each time you run "What should I work on?" or "Show project status", an entry is added
+- Entries are timestamped and include context about what you were working on
+- This helps maintain continuity across sessions
+- The log is automatically trimmed to keep the most recent 100 entries
+
+---
+
+## {{CURRENT_DATE}} - Initial Setup
+- Created claude-prioritise persistence system
+- Initialized activity logging
+- Ready to track project progress
+
+---
+
+<!-- New entries will be appended below this line -->
+<!-- Format: -->
+<!-- ## YYYY-MM-DD HH:MM -->
+<!-- - Activity description -->
+<!-- - Current state: X done, Y in progress, Z not started -->
+<!-- - Suggested priorities: [priorities] -->
+<!-- - GitHub: [github status] -->

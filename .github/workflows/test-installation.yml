@@ -1,0 +1,101 @@
+name: Test Plugin Installation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  test-marketplace:
+    name: Test Marketplace Installation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify marketplace structure
+        run: |
+          echo "🔍 Checking marketplace structure..."
+
+          # Check marketplace.json exists
+          if [ ! -f ".claude-plugin/marketplace.json" ]; then
+            echo "❌ marketplace.json not found"
+            exit 1
+          fi
+          echo "✅ marketplace.json found"
+
+          # Check each plugin directory exists
+          for plugin in plugin-formatter claude-prioritise example-plugin; do
+            if [ ! -d "$plugin" ]; then
+              echo "❌ Plugin directory not found: $plugin"
+              exit 1
+            fi
+            echo "✅ Plugin directory found: $plugin"
+          done
+        shell: bash
+
+      - name: Verify plugin.json files
+        run: |
+          echo "🔍 Checking plugin.json files..."
+
+          for plugin in plugin-formatter claude-prioritise example-plugin; do
+            if [ ! -f "$plugin/.claude-plugin/plugin.json" ]; then
+              echo "❌ plugin.json not found in: $plugin"
+              exit 1
+            fi
+            echo "✅ plugin.json found in: $plugin"
+          done
+        shell: bash
+
+      - name: Check for required skills
+        run: |
+          echo "🔍 Checking skills directories..."
+
+          # plugin-formatter should have plugin-formatter skill
+          if [ ! -d "plugin-formatter/skills/plugin-formatter" ]; then
+            echo "❌ plugin-formatter skill not found"
+            exit 1
+          fi
+          echo "✅ plugin-formatter skill found"
+
+          # claude-prioritise should have project-status skill
+          if [ ! -d "claude-prioritise/skills/project-status" ]; then
+            echo "❌ project-status skill not found"
+            exit 1
+          fi
+          echo "✅ project-status skill found"
+
+          # example-plugin should have hello-world and status-checker skills
+          if [ ! -d "example-plugin/skills/hello-world" ]; then
+            echo "❌ hello-world skill not found"
+            exit 1
+          fi
+          echo "✅ hello-world skill found"
+
+          if [ ! -d "example-plugin/skills/status-checker" ]; then
+            echo "❌ status-checker skill not found"
+            exit 1
+          fi
+          echo "✅ status-checker skill found"
+        shell: bash
+
+      - name: Installation test summary
+        if: success()
+        run: |
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✅ Marketplace structure validated on ${{ matrix.os }}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "Ready for installation:"
+          echo "  /plugin marketplace add $(pwd)"
+          echo "  /plugin install plugin-formatter@claude-priority"
+          echo "  /plugin install claude-prioritise@claude-priority"
+          echo "  /plugin install example-plugin@claude-priority"
+        shell: bash

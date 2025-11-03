@@ -1,7 +1,7 @@
 {
   "name": "claude-priority",
   "owner": {
-    "name": "Jonathan"
+    "name": "ZenterFlow"
   },
   "description": "Personal collection of priority Claude Code skills and plugins for development workflows, including plugin formatting and task prioritization tools.",
   "version": "1.0.0",
@@ -12,7 +12,7 @@
       "description": "Formats plugin folders and files according to Claude Code plugin marketplace guidelines",
       "version": "1.0.0",
       "author": {
-        "name": "Jonathan"
+        "name": "ZenterFlow"
       },
       "keywords": ["formatting", "validation", "plugin-development", "tools"],
       "category": "tools"
@@ -23,7 +23,7 @@
       "description": "One-command project status, priority surfacing and persistent backlog grooming for development workflows",
       "version": "1.0.0",
       "author": {
-        "name": "Jonathan"
+        "name": "ZenterFlow"
       },
       "keywords": ["project-management", "backlog", "status", "github", "tools"],
       "category": "tools"

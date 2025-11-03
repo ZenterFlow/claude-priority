@@ -1,0 +1,93 @@
+#!/bin/bash
+# Git pre-commit hook for validating plugins before commit
+# Install: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -e
+
+echo "🔍 Running pre-commit validation..."
+echo ""
+
+ERRORS=0
+SCRIPT_DIR="plugin-formatter/skills/plugin-formatter/scripts"
+
+# Check if validation scripts exist
+if [ ! -d "$SCRIPT_DIR" ]; then
+  echo "⚠️  Validation scripts not found. Skipping validation."
+  exit 0
+fi
+
+# Get list of modified plugin directories
+MODIFIED_PLUGINS=$(git diff --cached --name-only | grep -oP '^(plugin-formatter|claude-prioritise|example-plugin)' | sort -u || true)
+
+if [ -z "$MODIFIED_PLUGINS" ]; then
+  echo "ℹ️  No plugin files modified. Skipping validation."
+  exit 0
+fi
+
+echo "Modified plugins:"
+echo "$MODIFIED_PLUGINS" | sed 's/^/  • /'
+echo ""
+
+# Validate each modified plugin
+for plugin in $MODIFIED_PLUGINS; do
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Validating: $plugin"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+  # Run naming validation
+  echo "1. Checking naming conventions..."
+  if ! "$SCRIPT_DIR/validate-naming.sh" "$plugin" 2>&1; then
+    ((ERRORS++))
+  fi
+  echo ""
+
+  # Run JSON validation
+  echo "2. Validating JSON files..."
+  if ! "$SCRIPT_DIR/validate-json.sh" "$plugin" 2>&1; then
+    ((ERRORS++))
+  fi
+  echo ""
+
+  # Run frontmatter validation
+  echo "3. Checking frontmatter..."
+  if ! "$SCRIPT_DIR/validate-frontmatter.sh" "$plugin" 2>&1; then
+    ((ERRORS++))
+  fi
+  echo ""
+done
+
+# Check marketplace.json if it was modified
+if git diff --cached --name-only | grep -q "\.claude-plugin/marketplace.json"; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Validating: marketplace.json"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+  if ! python3 -m json.tool .claude-plugin/marketplace.json > /dev/null 2>&1; then
+    echo "❌ marketplace.json has invalid JSON syntax"
+    ((ERRORS++))
+  else
+    echo "✅ marketplace.json is valid JSON"
+  fi
+  echo ""
+fi
+
+# Summary
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📊 VALIDATION SUMMARY"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+if [ $ERRORS -eq 0 ]; then
+  echo "✅ All validations passed!"
+  echo ""
+  echo "Proceeding with commit..."
+  exit 0
+else
+  echo "❌ Found $ERRORS validation error(s)"
+  echo ""
+  echo "Please fix the errors above before committing."
+  echo ""
+  echo "To bypass this check (not recommended):"
+  echo "  git commit --no-verify"
+  echo ""
+  exit 1
+fi

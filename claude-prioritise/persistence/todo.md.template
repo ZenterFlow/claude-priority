@@ -1,0 +1,41 @@
+# Current Tasks
+
+This file tracks the current state of your tasks.
+
+## How This Works
+- Tasks are synced from ideas.md automatically
+- Move tasks between sections as you work on them
+- Use checkboxes [ ] and [x] or the section headers to indicate status
+- The plugin reads this file to generate status reports and suggestions
+
+---
+
+## Done ✅
+<!-- Completed tasks - celebrate your wins! -->
+<!-- Example: -->
+<!-- - [x] Set up project structure -->
+<!-- - [x] Configure development environment -->
+
+## In Progress 🔄
+<!-- Tasks you're currently working on - keep this focused (1-3 items max) -->
+<!-- Example: -->
+<!-- - [ ] 🔄 Implement user authentication -->
+<!-- - [ ] 🔄 Write unit tests for API endpoints -->
+
+## Not Started 📋
+<!-- Tasks from your backlog that are ready to work on -->
+<!-- These are automatically synced from ideas.md based on priority -->
+<!-- Example: -->
+<!-- - [ ] 📋 Add error handling to async functions -->
+<!-- - [ ] 📋 Create documentation for new API -->
+<!-- - [ ] 📋 Set up CI/CD pipeline -->
+
+---
+
+**Last updated**: {{CURRENT_DATE}}
+
+<!-- Tips: -->
+<!-- - Keep "In Progress" small to maintain focus -->
+<!-- - Move items to "Done" when complete (feels good!) -->
+<!-- - Don't worry about adding tasks manually - they sync from ideas.md -->
+<!-- - Use the plugin to get smart suggestions about what to work on next -->

@@ -1,0 +1,45 @@
+{
+  "scenario": "Naming Convention Violations",
+  "description": "Plugin with uppercase names, underscores, and mismatched references",
+
+  "plugin_structure": {
+    "directory_name": "Chart_Basics",
+    "files": {
+      ".claude-plugin/plugin.json": {
+        "name": "Chart_Basics",
+        "version": "0.1.0",
+        "description": "Teaching chart fundamentals and symbols",
+        "author": "NavigationMaster",
+        "keywords": ["charts", "navigation"],
+        "agents": "./agents/Chart_Basics-tutor.md",
+        "skills": "./skills"
+      },
+      "skills/Symbol-Spotter/skill.md": {
+        "frontmatter": {
+          "name": "Symbol-Spotter",
+          "description": "Identify chart symbols",
+          "license": "MIT"
+        },
+        "content": "# SKILL: Symbol-Spotter\n..."
+      },
+      "skills/Depth_Calculator/skill.md": {
+        "frontmatter": {
+          "name": "Depth_Calculator",
+          "description": "Calculate water depths",
+          "license": "MIT"
+        },
+        "content": "# SKILL: Depth_Calculator\n..."
+      }
+    }
+  },
+
+  "errors": [
+    "Plugin directory name 'Chart_Basics' contains underscore",
+    "Plugin.json name 'Chart_Basics' contains underscore",
+    "Author field is string instead of object",
+    "Skill directory 'Symbol-Spotter' contains uppercase",
+    "Skill name 'Symbol-Spotter' in frontmatter contains uppercase",
+    "Skill directory 'Depth_Calculator' contains underscore",
+    "Skill name 'Depth_Calculator' in frontmatter contains underscore"
+  ]
+}

@@ -1,0 +1,65 @@
+name: Validate Plugins
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate All Plugins
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Make scripts executable
+        run: |
+          chmod +x plugin-formatter/skills/plugin-formatter/scripts/*.sh
+
+      - name: Validate plugin-formatter
+        run: |
+          echo "🔍 Validating plugin-formatter..."
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-naming.sh plugin-formatter
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-json.sh plugin-formatter
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-frontmatter.sh plugin-formatter
+
+      - name: Validate claude-prioritise
+        run: |
+          echo "🔍 Validating claude-prioritise..."
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-naming.sh claude-prioritise
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-json.sh claude-prioritise
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-frontmatter.sh claude-prioritise
+
+      - name: Validate example-plugin
+        run: |
+          echo "🔍 Validating example-plugin..."
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-naming.sh example-plugin
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-json.sh example-plugin
+          ./plugin-formatter/skills/plugin-formatter/scripts/validate-frontmatter.sh example-plugin
+
+      - name: Validate marketplace.json
+        run: |
+          echo "🔍 Validating marketplace.json..."
+          python3 -m json.tool .claude-plugin/marketplace.json > /dev/null
+          echo "✅ marketplace.json is valid JSON"
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✅ All plugins validated successfully!"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✓ plugin-formatter"
+          echo "✓ claude-prioritise"
+          echo "✓ example-plugin"
+          echo "✓ marketplace.json"
+          echo ""
+          echo "All plugins comply with Claude Code marketplace standards."

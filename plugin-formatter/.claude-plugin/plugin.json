@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Formats plugin folders and files according to Claude Code plugin marketplace guidelines",
   "author": {
-    "name": "Jonathan"
+    "name": "ZenterFlow"
   },
   "license": "MIT",
   "keywords": ["formatting", "validation", "plugin-development", "tools"],

@@ -1,0 +1,46 @@
+# Backlog Ideas
+
+This file contains your project backlog organized by priority.
+
+## How to Use
+1. Add ideas to the appropriate priority section
+2. Use markdown bullets (- )
+3. Add context tags like [DUE: date] or [URGENT] if needed
+4. Ideas are automatically synced to todo.md when you run status checks
+5. Mark completed items with ~~strikethrough~~ or move them to todo.md Done section
+
+---
+
+## High Priority
+<!-- Critical items that should be addressed soon -->
+- Add your high-priority tasks here
+- Example: [DUE: 2025-11-15] Complete API documentation
+- Example: [URGENT] Fix production bug in auth system
+
+## Medium Priority
+<!-- Important but not urgent -->
+- Add your medium-priority tasks here
+- Example: Refactor database queries for performance
+- Example: Add unit tests for new features
+
+## Low Priority
+<!-- Nice to have, can wait -->
+- Add your low-priority tasks here
+- Example: Update README with better examples
+- Example: Add dark mode toggle
+
+## Someday/Maybe
+<!-- Ideas for the future, not currently planned -->
+- Add your someday/maybe ideas here
+- Example: Explore GraphQL migration
+- Example: Add internationalization support
+
+---
+
+**Last updated**: {{CURRENT_DATE}}
+
+<!-- Tips: -->
+<!-- - Keep descriptions clear and actionable -->
+<!-- - Break large tasks into smaller ones -->
+<!-- - Review and groom this list regularly -->
+<!-- - Move completed items to the Done section in todo.md -->

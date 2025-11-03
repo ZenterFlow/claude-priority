@@ -1,0 +1,45 @@
+{
+  "scenario": "JSON Schema Violations",
+  "description": "Plugin with incorrect author/owner formats and missing required fields",
+
+  "files": {
+    ".claude-plugin/plugin.json": {
+      "name": "sailing-weather",
+      "version": "1.2",
+      "description": "Weather",
+      "author": "Captain Smith",
+      "keywords": "weather,sailing",
+      "license": "MIT"
+    },
+
+    "../.claude-plugin/marketplace.json": {
+      "name": "sailing-curriculum",
+      "owner": "SailingSchool",
+      "description": "Complete sailing education",
+      "version": "2.0",
+      "plugins": [
+        {
+          "name": "sailing-weather",
+          "source": "./sailing-weather",
+          "description": "Weather",
+          "version": "1.2",
+          "author": "Captain Smith",
+          "keywords": "weather",
+          "category": "education"
+        }
+      ]
+    }
+  },
+
+  "errors": [
+    "plugin.json: version '1.2' not semantic (should be '1.2.0')",
+    "plugin.json: description 'Weather' too short (min 10 chars)",
+    "plugin.json: author is string, should be object with 'name' field",
+    "plugin.json: keywords is string, should be array",
+    "marketplace.json: owner is string, should be object with 'name' field",
+    "marketplace.json: version '2.0' not semantic (should be '2.0.0')",
+    "marketplace.json plugins[0]: author is string, should be object",
+    "marketplace.json plugins[0]: keywords is string, should be array",
+    "marketplace.json plugins[0]: description 'Weather' too short"
+  ]
+}

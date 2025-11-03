@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "One-command project status, priority surfacing and persistent backlog grooming for development workflows",
   "author": {
-    "name": "Jonathan"
+    "name": "ZenterFlow"
   },
   "license": "MIT",
   "keywords": ["project-management", "backlog", "status", "github", "tools"],

@@ -1,0 +1,53 @@
+{
+  "scenario": "JSON Schema Violations - FIXED",
+  "description": "Same files after formatter applied schema fixes",
+
+  "files": {
+    ".claude-plugin/plugin.json": {
+      "name": "sailing-weather",
+      "version": "1.2.0",
+      "description": "Weather forecasting and analysis for sailing",
+      "author": {
+        "name": "Captain Smith"
+      },
+      "keywords": ["weather", "sailing"],
+      "license": "MIT"
+    },
+
+    "../.claude-plugin/marketplace.json": {
+      "name": "sailing-curriculum",
+      "owner": {
+        "name": "SailingSchool"
+      },
+      "description": "Complete sailing education",
+      "version": "2.0.0",
+      "plugins": [
+        {
+          "name": "sailing-weather",
+          "source": "./sailing-weather",
+          "description": "Weather forecasting and analysis for sailing",
+          "version": "1.2.0",
+          "author": {
+            "name": "Captain Smith"
+          },
+          "keywords": ["weather", "sailing"],
+          "category": "education"
+        }
+      ]
+    }
+  },
+
+  "fixes_applied": [
+    "plugin.json: Updated version '1.2' → '1.2.0' (semantic versioning)",
+    "plugin.json: Enhanced description to meet 10-char minimum",
+    "plugin.json: Converted author string → object: {\"name\": \"Captain Smith\"}",
+    "plugin.json: Converted keywords string → array: [\"weather\", \"sailing\"]",
+    "marketplace.json: Converted owner string → object: {\"name\": \"SailingSchool\"}",
+    "marketplace.json: Updated version '2.0' → '2.0.0'",
+    "marketplace.json plugins[0]: Converted author string → object",
+    "marketplace.json plugins[0]: Converted keywords string → array",
+    "marketplace.json plugins[0]: Enhanced description (synced from plugin.json)"
+  ],
+
+  "validation_result": "✅ All JSON schemas valid"
+}

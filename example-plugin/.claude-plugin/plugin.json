@@ -1,0 +1,15 @@
+{
+  "name": "example-plugin",
+  "version": "1.0.0",
+  "description": "Perfect example plugin demonstrating all Claude Code marketplace features and best practices",
+  "author": {
+    "name": "ZenterFlow",
+    "url": "https://github.com/ZenterFlow"
+  },
+  "homepage": "https://github.com/ZenterFlow/claude-priority/tree/main/example-plugin",
+  "repository": "https://github.com/ZenterFlow/claude-priority",
+  "license": "MIT",
+  "keywords": ["example", "reference", "tutorial", "best-practices", "demo"],
+  "agents": "./agents/example-plugin-tutor.md",
+  "skills": "./skills"
+}

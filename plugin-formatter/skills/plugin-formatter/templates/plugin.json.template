@@ -1,15 +1,36 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+
+  "_comment_name": "Plugin name must be lowercase-with-hyphens, matching directory name",
   "name": "{{plugin-name}}",
-  "version": "{{version}}",
+
+  "_comment_version": "Semantic versioning: MAJOR.MINOR.PATCH (e.g., 1.0.0)",
+  "version": "1.0.0",
+
+  "_comment_description": "Brief description, 10-200 characters, explains what the plugin teaches",
   "description": "{{description}}",
+
+  "_comment_author": "MUST be an object with 'name' field. URL is optional.",
   "author": {
     "name": "{{author-name}}",
-    "url": "{{author-url}}"
+    "url": "https://example.com"
   },
-  "homepage": "{{homepage-url}}",
-  "repository": "{{repository-url}}",
-  "license": "{{license}}",
-  "keywords": [{{keywords}}],
+
+  "_comment_homepage": "Optional: Link to plugin documentation or website",
+  "homepage": "https://github.com/username/repo",
+
+  "_comment_repository": "Optional: Link to source code repository",
+  "repository": "https://github.com/username/repo",
+
+  "_comment_license": "Valid values: MIT, Apache-2.0, GPL-3.0, BSD-3-Clause, CC-BY-SA, Unlicense",
+  "license": "MIT",
+
+  "_comment_keywords": "Array of strings for searchability and categorization",
+  "keywords": ["keyword1", "keyword2", "keyword3"],
+
+  "_comment_agents": "Path to main agent file. Pattern: './agents/{plugin-name}-tutor.md'",
   "agents": "./agents/{{plugin-name}}-tutor.md",
+
+  "_comment_skills": "Path to skills directory. Must be exactly './skills'",
   "skills": "./skills"
 }
