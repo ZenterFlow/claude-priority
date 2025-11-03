@@ -31,7 +31,7 @@ jobs:
           echo "✅ marketplace.json found"
 
           # Check each plugin directory exists
-          for plugin in plugin-formatter claude-prioritise example-plugin; do
+          for plugin in plugin-formatter claude-prioritise; do
             if [ ! -d "$plugin" ]; then
               echo "❌ Plugin directory not found: $plugin"
               exit 1
@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "🔍 Checking plugin.json files..."
 
-          for plugin in plugin-formatter claude-prioritise example-plugin; do
+          for plugin in plugin-formatter claude-prioritise; do
             if [ ! -f "$plugin/.claude-plugin/plugin.json" ]; then
               echo "❌ plugin.json not found in: $plugin"
               exit 1
@@ -70,19 +70,6 @@ jobs:
             exit 1
           fi
           echo "✅ project-status skill found"
-
-          # example-plugin should have hello-world and status-checker skills
-          if [ ! -d "example-plugin/skills/hello-world" ]; then
-            echo "❌ hello-world skill not found"
-            exit 1
-          fi
-          echo "✅ hello-world skill found"
-
-          if [ ! -d "example-plugin/skills/status-checker" ]; then
-            echo "❌ status-checker skill not found"
-            exit 1
-          fi
-          echo "✅ status-checker skill found"
         shell: bash
 
       - name: Installation test summary
@@ -97,5 +84,4 @@ jobs:
           echo "  /plugin marketplace add $(pwd)"
           echo "  /plugin install plugin-formatter@claude-priority"
           echo "  /plugin install claude-prioritise@claude-priority"
-          echo "  /plugin install example-plugin@claude-priority"
         shell: bash

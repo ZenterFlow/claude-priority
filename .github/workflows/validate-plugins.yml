@@ -38,13 +38,6 @@ jobs:
           ./plugin-formatter/skills/plugin-formatter/scripts/validate-json.sh claude-prioritise
           ./plugin-formatter/skills/plugin-formatter/scripts/validate-frontmatter.sh claude-prioritise
 
-      - name: Validate example-plugin
-        run: |
-          echo "🔍 Validating example-plugin..."
-          ./plugin-formatter/skills/plugin-formatter/scripts/validate-naming.sh example-plugin
-          ./plugin-formatter/skills/plugin-formatter/scripts/validate-json.sh example-plugin
-          ./plugin-formatter/skills/plugin-formatter/scripts/validate-frontmatter.sh example-plugin
-
       - name: Validate marketplace.json
         run: |
           echo "🔍 Validating marketplace.json..."
@@ -59,7 +52,6 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "✓ plugin-formatter"
           echo "✓ claude-prioritise"
-          echo "✓ example-plugin"
           echo "✓ marketplace.json"
           echo ""
           echo "All plugins comply with Claude Code marketplace standards."
