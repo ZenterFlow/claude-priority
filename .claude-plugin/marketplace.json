@@ -3,8 +3,8 @@
   "owner": {
     "name": "ZenterFlow"
   },
-  "description": "Personal collection of priority Claude Code skills and plugins for development workflows, including plugin formatting and task prioritization tools.",
-  "version": "1.0.0",
+  "description": "Production-ready Claude Code plugins for development workflows",
+  "version": "2.1.0",
   "plugins": [
     {
       "name": "plugin-formatter",
@@ -20,12 +20,12 @@
     {
       "name": "claude-prioritise",
       "source": "./claude-prioritise",
-      "description": "One-command project status, priority surfacing and persistent backlog grooming for development workflows",
+      "description": "One-command project status assessment, priority surfacing, and persistent backlog management",
       "version": "1.0.0",
       "author": {
         "name": "ZenterFlow"
       },
-      "keywords": ["project-management", "backlog", "status", "github", "tools"],
+      "keywords": ["productivity", "task-management", "priorities", "tools"],
       "category": "tools"
     }
   ]

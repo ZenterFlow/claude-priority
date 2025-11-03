@@ -30,4 +30,5 @@ One-command project status assessment, priority surfacing, and persistent backlo
 - Automatic backlog grooming
 
 ## Version History
+- v3.0.0 (2025-11-03): Version sync
 - v1.0.0 (2025-11-01): Initial release with persistent storage and GitHub sync

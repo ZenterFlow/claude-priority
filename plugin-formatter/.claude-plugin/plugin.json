@@ -1,6 +1,6 @@
 {
   "name": "plugin-formatter",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Formats plugin folders and files according to Claude Code plugin marketplace guidelines",
   "author": {
     "name": "ZenterFlow"
