@@ -1,12 +1,19 @@
 {
   "name": "claude-prioritise",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "One-command project status, priority surfacing and persistent backlog grooming for development workflows",
   "author": {
-    "name": "ZenterFlow"
+    "name": "ZenterFlow",
+    "email": "contact@zenterflow.dev",
+    "url": "https://github.com/ZenterFlow"
   },
+  "homepage": "https://github.com/ZenterFlow/claude-priority/tree/main/claude-prioritise",
+  "repository": "https://github.com/ZenterFlow/claude-priority",
   "license": "MIT",
-  "keywords": ["project-management", "backlog", "status", "github", "tools"],
+  "keywords": ["project-management", "backlog", "status", "github", "tools", "commands", "hooks", "mcp", "automation"],
   "agents": "./agents/claude-prioritise-tutor.md",
-  "skills": "./skills"
+  "skills": "./skills",
+  "commands": "./commands",
+  "hooks": "./.hooks.json",
+  "mcpServers": "./.mcp.json"
 }

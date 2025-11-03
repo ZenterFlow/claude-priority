@@ -8,16 +8,14 @@ PLUGIN_DIR="${1:-.}"
 ERRORS=0
 WARNINGS=0
 
-echo "🔍 Validating skill.md frontmatter in: $PLUGIN_DIR"
+echo "🔍 Validating frontmatter in: $PLUGIN_DIR"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-if [ ! -d "$PLUGIN_DIR/skills" ]; then
-  echo "❌ No skills/ directory found"
-  exit 1
-fi
-
 # Process each skill
+if [ -d "$PLUGIN_DIR/skills" ]; then
+  echo "Validating skill.md frontmatter..."
+  echo ""
 for skill_dir in "$PLUGIN_DIR/skills"/*/ ; do
   if [ -d "$skill_dir" ]; then
     SKILL_NAME=$(basename "$skill_dir")
@@ -117,6 +115,63 @@ for skill_dir in "$PLUGIN_DIR/skills"/*/ ; do
     echo ""
   fi
 done
+else
+  echo "ℹ️  No skills/ directory found (skipping skill frontmatter validation)"
+fi
+
+# Validate command frontmatter
+if [ -d "$PLUGIN_DIR/commands" ]; then
+  echo ""
+  echo "Validating command frontmatter..."
+  echo ""
+
+  for cmd_file in "$PLUGIN_DIR/commands"/*.md ; do
+    if [ -f "$cmd_file" ]; then
+      CMD_NAME=$(basename "$cmd_file" .md)
+
+      echo "Checking command: $CMD_NAME"
+
+      # Check for frontmatter block
+      if ! grep -q "^---$" "$cmd_file"; then
+        echo "  ❌ No frontmatter found (missing --- markers)"
+        ((ERRORS++))
+        continue
+      fi
+
+      # Extract frontmatter
+      FRONTMATTER=$(sed -n '/^---$/,/^---$/p' "$cmd_file" | sed '1d;$d')
+
+      if [ -z "$FRONTMATTER" ]; then
+        echo "  ❌ Empty frontmatter"
+        ((ERRORS++))
+        continue
+      fi
+
+      # Check required description field
+      if echo "$FRONTMATTER" | grep -q "^description:"; then
+        DESC=$(echo "$FRONTMATTER" | grep "^description:" | sed 's/description:\s*//')
+        DESC_LEN=${#DESC}
+
+        if [ $DESC_LEN -lt 5 ]; then
+          echo "  ❌ Description too short ($DESC_LEN chars, min 5)"
+          ((ERRORS++))
+        elif [ $DESC_LEN -gt 100 ]; then
+          echo "  ⚠️  Description very long ($DESC_LEN chars, recommended max 100)"
+          ((WARNINGS++))
+        else
+          echo "  ✅ Description length valid: $DESC_LEN chars"
+        fi
+      else
+        echo "  ❌ Missing required field: description"
+        ((ERRORS++))
+      fi
+
+      echo ""
+    fi
+  done
+else
+  echo "ℹ️  No commands/ directory found (skipping command frontmatter validation)"
+fi
 
 # Summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

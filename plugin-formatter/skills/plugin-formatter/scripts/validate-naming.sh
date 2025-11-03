@@ -94,8 +94,54 @@ if [ -d "$PLUGIN_DIR/agents" ]; then
     fi
   done
 else
-  echo "⚠️  No agents/ directory found"
-  ((WARNINGS++))
+  echo "ℹ️  No agents/ directory found (optional)"
+fi
+
+# Check command files
+echo ""
+echo "Checking command files..."
+if [ -d "$PLUGIN_DIR/commands" ]; then
+  for cmd_file in "$PLUGIN_DIR/commands"/*.md ; do
+    if [ -f "$cmd_file" ]; then
+      CMD_NAME=$(basename "$cmd_file" .md)
+
+      if ! [[ "$CMD_NAME" =~ $VALID_PATTERN ]]; then
+        echo "❌ Command file '$CMD_NAME.md' violates naming convention"
+        ((ERRORS++))
+      else
+        echo "✅ Command file valid: $CMD_NAME.md"
+      fi
+    fi
+  done
+else
+  echo "ℹ️  No commands/ directory found (optional)"
+fi
+
+# Check hook files
+echo ""
+echo "Checking hook files..."
+if [ -d "$PLUGIN_DIR/hooks" ]; then
+  for hook_file in "$PLUGIN_DIR/hooks"/*.sh ; do
+    if [ -f "$hook_file" ]; then
+      HOOK_NAME=$(basename "$hook_file" .sh)
+
+      # Hook names use specific conventions (kebab-case)
+      if ! [[ "$HOOK_NAME" =~ $VALID_PATTERN ]]; then
+        echo "❌ Hook file '$HOOK_NAME.sh' violates naming convention"
+        ((ERRORS++))
+      else
+        echo "✅ Hook file valid: $HOOK_NAME.sh"
+
+        # Check if hook is executable
+        if [ ! -x "$hook_file" ]; then
+          echo "  ⚠️  Hook '$HOOK_NAME.sh' is not executable (chmod +x recommended)"
+          ((WARNINGS++))
+        fi
+      fi
+    fi
+  done
+else
+  echo "ℹ️  No hooks/ directory found (optional)"
 fi
 
 # Summary

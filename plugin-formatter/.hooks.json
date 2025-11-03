@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "pre-commit": "./hooks/pre-commit.sh",
+    "tool-use": "./hooks/tool-use.sh"
+  },
+  "documentation": {
+    "purpose": "Hooks for automatic plugin validation and developer assistance",
+    "hooks": {
+      "pre-commit": {
+        "description": "Validates plugin files before git commit",
+        "trigger": "Before git commit",
+        "behavior": [
+          "Detects modified plugin.json files",
+          "Runs all validation scripts (naming, JSON, frontmatter)",
+          "Blocks commit if validation fails",
+          "Provides fix suggestions"
+        ],
+        "bypass": "git commit --no-verify"
+      },
+      "tool-use": {
+        "description": "Provides validation hints when editing plugin files",
+        "trigger": "Before Write or Edit tool use",
+        "behavior": [
+          "Detects plugin file modifications",
+          "Suggests validation commands",
+          "Warns about common mistakes (author string vs object)",
+          "Checks naming conventions on new files",
+          "Always allows the operation (non-blocking)"
+        ]
+      }
+    },
+    "usage": "Hooks are automatically activated when plugin-formatter is installed"
+  }
+}

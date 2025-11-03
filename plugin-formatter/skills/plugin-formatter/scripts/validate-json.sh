@@ -119,6 +119,52 @@ else
   fi
 fi
 
+# Validate hooks configuration (if exists)
+echo ""
+echo "Checking hooks configuration..."
+HOOKS_JSON="$PLUGIN_DIR/.hooks.json"
+
+if [ -f "$HOOKS_JSON" ]; then
+  if validate_json_syntax "$HOOKS_JSON"; then
+    echo "✅ .hooks.json has valid JSON syntax"
+
+    # Check if hooks field exists
+    if ! grep -q "\"hooks\"" "$HOOKS_JSON"; then
+      echo "  ⚠️  .hooks.json missing 'hooks' field"
+      ((ERRORS++))
+    else
+      echo "  ✅ hooks field present"
+    fi
+  else
+    ((ERRORS++))
+  fi
+else
+  echo "ℹ️  .hooks.json not found (optional)"
+fi
+
+# Validate MCP servers configuration (if exists)
+echo ""
+echo "Checking MCP servers configuration..."
+MCP_JSON="$PLUGIN_DIR/.mcp.json"
+
+if [ -f "$MCP_JSON" ]; then
+  if validate_json_syntax "$MCP_JSON"; then
+    echo "✅ .mcp.json has valid JSON syntax"
+
+    # Check if mcpServers field exists
+    if ! grep -q "\"mcpServers\"" "$MCP_JSON"; then
+      echo "  ⚠️  .mcp.json missing 'mcpServers' field"
+      ((ERRORS++))
+    else
+      echo "  ✅ mcpServers field present"
+    fi
+  else
+    ((ERRORS++))
+  fi
+else
+  echo "ℹ️  .mcp.json not found (optional)"
+fi
+
 # Validate marketplace.json (if exists)
 echo ""
 echo "Checking marketplace.json..."

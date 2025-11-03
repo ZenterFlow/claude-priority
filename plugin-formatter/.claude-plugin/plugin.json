@@ -1,12 +1,18 @@
 {
   "name": "plugin-formatter",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Formats plugin folders and files according to Claude Code plugin marketplace guidelines",
   "author": {
-    "name": "ZenterFlow"
+    "name": "ZenterFlow",
+    "email": "contact@zenterflow.dev",
+    "url": "https://github.com/ZenterFlow"
   },
+  "homepage": "https://github.com/ZenterFlow/claude-priority/tree/main/plugin-formatter",
+  "repository": "https://github.com/ZenterFlow/claude-priority",
   "license": "MIT",
-  "keywords": ["formatting", "validation", "plugin-development", "tools"],
+  "keywords": ["formatting", "validation", "plugin-development", "tools", "commands", "hooks", "automation"],
   "agents": "./agents/plugin-formatter-tutor.md",
-  "skills": "./skills"
+  "skills": "./skills",
+  "commands": "./commands",
+  "hooks": "./.hooks.json"
 }

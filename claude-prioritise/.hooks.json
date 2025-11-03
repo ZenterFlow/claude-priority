@@ -1,0 +1,45 @@
+{
+  "hooks": {
+    "user-prompt-submit": "./hooks/user-prompt-submit.sh",
+    "tool-use": "./hooks/tool-use.sh"
+  },
+  "documentation": {
+    "purpose": "Hooks for automatic context awareness and workflow suggestions",
+    "hooks": {
+      "user-prompt-submit": {
+        "description": "Provides context-aware command suggestions based on user intent",
+        "trigger": "Before user messages are sent to Claude",
+        "behavior": [
+          "Detects status/priority queries → suggests /show-status",
+          "Detects backlog updates → suggests /update-backlog",
+          "Detects prioritization needs → suggests /prioritize",
+          "Detects reporting requests → suggests /generate-report",
+          "Detects GitHub queries → mentions MCP availability",
+          "Provides command list for very short messages"
+        ],
+        "examples": [
+          "User: 'what should I work on?' → suggests /show-status",
+          "User: 'add new task' → suggests /update-backlog",
+          "User: 'resume' → shows context from persistence files"
+        ]
+      },
+      "tool-use": {
+        "description": "Tracks significant actions and provides workflow hints",
+        "trigger": "Before Write, Edit, or Bash tool use",
+        "behavior": [
+          "Detects git commits → notes tracking in project history",
+          "Detects persistence file updates → shows which command uses it",
+          "Detects manual status checks → suggests /show-status",
+          "Detects GitHub CLI usage → suggests MCP integration",
+          "Detects manual backlog edits → suggests /update-backlog"
+        ],
+        "non_blocking": true
+      }
+    },
+    "integration": {
+      "persistence": "Hooks monitor changes to log.md, todo.md, ideas.md",
+      "commands": "Hooks suggest relevant commands based on user actions",
+      "mcp": "Hooks mention GitHub MCP availability for GitHub-related queries"
+    }
+  }
+}

@@ -2,17 +2,17 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Claude Code Plugin Schema",
   "type": "object",
-  "required": ["name", "version", "description", "author"],
+  "required": ["name"],
   "properties": {
     "name": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$",
-      "description": "Plugin name in lowercase with hyphens"
+      "description": "Plugin name in lowercase with hyphens (required)"
     },
     "version": {
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "description": "Semantic version (e.g., 0.1.0)"
+      "description": "Semantic version (e.g., 1.0.0)"
     },
     "description": {
       "type": "string",
@@ -24,42 +24,97 @@
       "oneOf": [
         {
           "type": "string",
-          "description": "Author name as string (will be converted to object)"
+          "description": "Author name as string"
         },
         {
           "type": "object",
           "required": ["name"],
           "properties": {
             "name": {"type": "string"},
+            "email": {"type": "string", "format": "email"},
             "url": {"type": "string", "format": "uri"}
           }
         }
-      ]
+      ],
+      "description": "Plugin author information"
     },
     "homepage": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "description": "Documentation URL"
     },
     "repository": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "description": "Source code URL"
     },
     "license": {
       "type": "string",
-      "enum": ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause", "CC-BY-SA", "Unlicense"]
+      "description": "License identifier (e.g., MIT, Apache-2.0)"
     },
     "keywords": {
       "type": "array",
       "items": {"type": "string"},
-      "minItems": 1
+      "minItems": 1,
+      "description": "Discovery tags for the plugin"
     },
     "agents": {
-      "type": "string",
-      "pattern": "^\\./agents/.*\\.md$"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*\\.md$",
+          "description": "Path to single agent file"
+        },
+        {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^\\./.*\\.md$"},
+          "description": "Array of paths to agent files"
+        }
+      ],
+      "description": "Agent file(s) path - supplements ./agents/ directory"
     },
-    "skills": {
-      "type": "string",
-      "pattern": "^\\./skills$"
+    "commands": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*$",
+          "description": "Path to commands directory or file"
+        },
+        {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^\\./.*$"},
+          "description": "Array of paths to command files/directories"
+        }
+      ],
+      "description": "Command file(s) path - supplements ./commands/ directory"
+    },
+    "hooks": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*\\.json$",
+          "description": "Path to hooks configuration file"
+        },
+        {
+          "type": "object",
+          "description": "Inline hooks configuration"
+        }
+      ],
+      "description": "Hooks configuration - path or inline object"
+    },
+    "mcpServers": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*\\.json$",
+          "description": "Path to MCP servers configuration file"
+        },
+        {
+          "type": "object",
+          "description": "Inline MCP servers configuration"
+        }
+      ],
+      "description": "MCP servers configuration - path or inline object"
     }
   }
 }

@@ -1,0 +1,51 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "description": "GitHub integration for issue and PR management",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  },
+  "documentation": {
+    "purpose": "GitHub MCP server provides integration with GitHub issues, PRs, and repository data",
+    "setup": [
+      "1. Create GitHub Personal Access Token:",
+      "   - Go to GitHub Settings > Developer settings > Personal access tokens",
+      "   - Generate new token (classic)",
+      "   - Select scopes: repo, read:org, read:user",
+      "2. Set environment variable:",
+      "   - Linux/Mac: export GITHUB_TOKEN='your_token_here'",
+      "   - Windows: set GITHUB_TOKEN=your_token_here",
+      "   - Or add to .env file in project root",
+      "3. Restart Claude Code to pick up the environment variable"
+    ],
+    "features": [
+      "Sync todo.md with GitHub Issues",
+      "Create issues from backlog items",
+      "Track PR status in project status",
+      "Link commits to tasks",
+      "Fetch issue comments and updates"
+    ],
+    "commands_integration": {
+      "/show-status": "Can fetch open issues and PR counts",
+      "/update-backlog": "Can import issues as backlog items",
+      "/generate-report": "Can include GitHub metrics (commits, PRs, issues)"
+    },
+    "usage_examples": [
+      "\"Show my open GitHub issues\"",
+      "\"Create GitHub issue from backlog item 5\"",
+      "\"What PRs are pending review?\"",
+      "\"Link this task to GitHub issue #123\""
+    ],
+    "resources": [
+      "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+      "https://docs.github.com/en/rest"
+    ]
+  }
+}
