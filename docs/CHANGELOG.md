@@ -5,6 +5,61 @@ All notable changes to the Claude Priority marketplace will be documented in thi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-11-03
+
+### 🎯 Production Release
+
+Clean, user-focused marketplace with two-repository architecture fully implemented.
+
+### Changed
+
+**Production Repository Finalized**:
+- Removed all development artifacts (persistence/, migration files)
+- Repository size reduced to 779K (down from 15 MB)
+- Clean structure with only user-facing content
+- Streamlined workflows for production plugins only
+
+**Two-Repository Architecture Complete**:
+- Production: https://github.com/ZenterFlow/claude-priority (779K)
+- Development: https://github.com/ZenterFlow/claude-priority-dev (954K)
+- Auto-sync workflow configured and tested
+- All tests passing in both repositories
+
+### Removed
+
+- `persistence/` folder (development tracking)
+- `MIGRATION_CHECKLIST.md` (development artifact)
+- `READY_TO_MIGRATE.md` (development artifact)
+- All development-only documentation
+
+### Repository Status
+
+| Repository | Size | Plugins | Purpose |
+|------------|------|---------|---------|
+| Production | 779K | 2 | User installation |
+| Development | 954K | 3 | Development work |
+
+### For Users
+
+Install from production repository:
+```bash
+/plugin marketplace add https://github.com/ZenterFlow/claude-priority
+/plugin install plugin-formatter@claude-priority
+/plugin install claude-prioritise@claude-priority
+```
+
+### For Developers
+
+Clone and work in development repository:
+```bash
+git clone https://github.com/ZenterFlow/claude-priority-dev.git
+cd claude-priority-dev
+```
+
+Changes to plugins in dev repo automatically sync to production via GitHub Actions.
+
+---
+
 ## [2.1.0] - 2025-11-03
 
 ### 🏗️ Repository Architecture Release
