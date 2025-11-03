@@ -48,6 +48,7 @@ Comprehensive plugin validation and formatting toolkit that ensures Claude Code 
 ### Automated Hooks
 - **pre-commit**: Validates plugins before git commits (blocks invalid commits)
 - **tool-use**: Real-time validation hints when editing plugin files
+- **user-prompt-submit**: Suggests validation commands based on user intent and queries
 
 ### Validation Scripts
 - `validate-naming.sh`: Check naming conventions
@@ -67,6 +68,7 @@ Comprehensive plugin validation and formatting toolkit that ensures Claude Code 
 - Validation error guide with solutions
 
 ## Version History
+- v3.1.1 (2025-11-03): Added user-prompt-submit hook for command discovery and intent-based suggestions
 - v3.1.0 (2025-11-03): Added 4 slash commands and 2 hooks for enhanced automation and real-time validation
 - v3.0.0 (2025-11-03): Version sync with full plugin type support (commands, hooks, MCP)
 - v1.0.0 (2025-11-01): Initial release with full marketplace compliance validation

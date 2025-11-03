@@ -20,6 +20,7 @@ This plugin provides automated validation, formatting, and development assistanc
 ### Hooks
 - **pre-commit**: Automatically validates plugin files before git commits (blocks invalid commits)
 - **tool-use**: Provides real-time validation hints when editing plugin files
+- **user-prompt-submit**: Suggests validation commands based on your questions and intent
 
 ### Agent
 - **plugin-formatter-tutor**: Interactive guide for plugin formatting and validation workflows
@@ -71,7 +72,7 @@ git commit --no-verify
 
 ## Status
 
-Active - 1 skill, 4 commands, 2 hooks, 1 agent
+Active - 1 skill, 4 commands, 3 hooks, 1 agent
 
 ## Version
 

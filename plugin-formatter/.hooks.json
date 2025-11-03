@@ -1,7 +1,8 @@
 {
   "hooks": {
     "pre-commit": "./hooks/pre-commit.sh",
-    "tool-use": "./hooks/tool-use.sh"
+    "tool-use": "./hooks/tool-use.sh",
+    "user-prompt-submit": "./hooks/user-prompt-submit.sh"
   },
   "documentation": {
     "purpose": "Hooks for automatic plugin validation and developer assistance",
@@ -26,6 +27,17 @@
           "Warns about common mistakes (author string vs object)",
           "Checks naming conventions on new files",
           "Always allows the operation (non-blocking)"
+        ]
+      },
+      "user-prompt-submit": {
+        "description": "Suggests validation commands based on user intent",
+        "trigger": "Before user message is sent",
+        "behavior": [
+          "Detects validation-related queries",
+          "Suggests appropriate commands (/validate-plugin, /fix-naming, etc.)",
+          "Helps with plugin creation queries",
+          "Provides command discovery for help requests",
+          "Always allows the message (non-blocking)"
         ]
       }
     },
