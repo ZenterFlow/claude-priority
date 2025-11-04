@@ -4,7 +4,30 @@
 
 set -e
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# INPUT VALIDATION (SECURITY: OWASP A03 - Injection Prevention)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 PLUGIN_DIR="${1:-.}"
+
+# Security: Prevent directory traversal
+if [[ "$PLUGIN_DIR" == *".."* ]]; then
+  echo "❌ Security Error: Directory traversal not allowed"
+  exit 1
+fi
+
+# Security: Whitelist allowed characters
+if [[ ! "$PLUGIN_DIR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+  echo "❌ Security Error: Invalid characters in path"
+  exit 1
+fi
+
+# Validate directory exists
+if [ ! -d "$PLUGIN_DIR" ]; then
+  echo "❌ Error: Directory does not exist: $PLUGIN_DIR"
+  exit 1
+fi
+
 ERRORS=0
 WARNINGS=0
 
@@ -20,20 +43,23 @@ PLUGIN_NAME=$(basename "$PLUGIN_DIR")
 if ! [[ "$PLUGIN_NAME" =~ $VALID_PATTERN ]]; then
   echo "❌ Plugin directory '$PLUGIN_NAME' violates naming convention"
   echo "   Must be lowercase-with-hyphens (pattern: ^[a-z0-9-]+$)"
-  ((ERRORS++))
+  ((RRORS++)) || true
 else
   echo "✅ Plugin directory name valid: $PLUGIN_NAME"
 fi
 
 # Check plugin.json name field
 if [ -f "$PLUGIN_DIR/.claude-plugin/plugin.json" ]; then
-  PLUGIN_JSON_NAME=$(grep -oP '"name":\s*"\K[^"]+' "$PLUGIN_DIR/.claude-plugin/plugin.json" | head -1)
-  if ! [[ "$PLUGIN_JSON_NAME" =~ $VALID_PATTERN ]]; then
+  PLUGIN_JSON_NAME=$(jq -r '.name // empty' "$PLUGIN_DIR/.claude-plugin/plugin.json" 2>/dev/null || echo "")
+  if [ -z "$PLUGIN_JSON_NAME" ]; then
+    echo "❌ Plugin.json missing name field"
+    ((ERRORS++)) || true
+  elif ! [[ "$PLUGIN_JSON_NAME" =~ $VALID_PATTERN ]]; then
     echo "❌ Plugin.json name '$PLUGIN_JSON_NAME' violates naming convention"
-    ((ERRORS++))
+    ((ERRORS++)) || true
   elif [ "$PLUGIN_JSON_NAME" != "$PLUGIN_NAME" ]; then
     echo "⚠️  Plugin.json name '$PLUGIN_JSON_NAME' doesn't match directory '$PLUGIN_NAME'"
-    ((WARNINGS++))
+    ((WARNINGS++)) || true
   else
     echo "✅ Plugin.json name valid and matches directory"
   fi
@@ -43,14 +69,14 @@ fi
 echo ""
 echo "Checking skill directories..."
 if [ -d "$PLUGIN_DIR/skills" ]; then
-  for skill_dir in "$PLUGIN_DIR/skills"/*/ ; do
+  for skill_dir in "$PLUGIN_DIR/skills"/*/; do
     if [ -d "$skill_dir" ]; then
       SKILL_NAME=$(basename "$skill_dir")
 
       if ! [[ "$SKILL_NAME" =~ $VALID_PATTERN ]]; then
         echo "❌ Skill directory '$SKILL_NAME' violates naming convention"
         echo "   Should be: $(echo "$SKILL_NAME" | tr '[:upper:]' '[:lower:]' | tr '_' '-')"
-        ((ERRORS++))
+        ((RRORS++)) || true
       else
         echo "✅ Skill directory valid: $SKILL_NAME"
 
@@ -61,12 +87,12 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
 
           if [ -n "$FRONTMATTER_NAME" ] && [ "$FRONTMATTER_NAME" != "$SKILL_NAME" ]; then
             echo "  ⚠️  Frontmatter name '$FRONTMATTER_NAME' doesn't match directory '$SKILL_NAME'"
-            ((WARNINGS++))
+            ((WARNINGS++)) || true
           elif [ -n "$FRONTMATTER_NAME" ]; then
             echo "  ✅ Frontmatter name matches directory"
           else
             echo "  ⚠️  No frontmatter name found in skill.md"
-            ((WARNINGS++))
+            ((WARNINGS++)) || true
           fi
         fi
       fi
@@ -74,20 +100,20 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
   done
 else
   echo "⚠️  No skills/ directory found"
-  ((WARNINGS++))
+  ((WARNINGS++)) || true
 fi
 
 # Check agent files
 echo ""
 echo "Checking agent files..."
 if [ -d "$PLUGIN_DIR/agents" ]; then
-  for agent_file in "$PLUGIN_DIR/agents"/*.md ; do
+  for agent_file in "$PLUGIN_DIR/agents"/*.md; do
     if [ -f "$agent_file" ]; then
       AGENT_NAME=$(basename "$agent_file" .md)
 
       if ! [[ "$AGENT_NAME" =~ $VALID_PATTERN ]]; then
         echo "❌ Agent file '$AGENT_NAME.md' violates naming convention"
-        ((ERRORS++))
+        ((RRORS++)) || true
       else
         echo "✅ Agent file valid: $AGENT_NAME.md"
       fi
@@ -101,13 +127,13 @@ fi
 echo ""
 echo "Checking command files..."
 if [ -d "$PLUGIN_DIR/commands" ]; then
-  for cmd_file in "$PLUGIN_DIR/commands"/*.md ; do
+  for cmd_file in "$PLUGIN_DIR/commands"/*.md; do
     if [ -f "$cmd_file" ]; then
       CMD_NAME=$(basename "$cmd_file" .md)
 
       if ! [[ "$CMD_NAME" =~ $VALID_PATTERN ]]; then
         echo "❌ Command file '$CMD_NAME.md' violates naming convention"
-        ((ERRORS++))
+        ((RRORS++)) || true
       else
         echo "✅ Command file valid: $CMD_NAME.md"
       fi
@@ -121,21 +147,21 @@ fi
 echo ""
 echo "Checking hook files..."
 if [ -d "$PLUGIN_DIR/hooks" ]; then
-  for hook_file in "$PLUGIN_DIR/hooks"/*.sh ; do
+  for hook_file in "$PLUGIN_DIR/hooks"/*.sh; do
     if [ -f "$hook_file" ]; then
       HOOK_NAME=$(basename "$hook_file" .sh)
 
       # Hook names use specific conventions (kebab-case)
       if ! [[ "$HOOK_NAME" =~ $VALID_PATTERN ]]; then
         echo "❌ Hook file '$HOOK_NAME.sh' violates naming convention"
-        ((ERRORS++))
+        ((RRORS++)) || true
       else
         echo "✅ Hook file valid: $HOOK_NAME.sh"
 
         # Check if hook is executable
         if [ ! -x "$hook_file" ]; then
           echo "  ⚠️  Hook '$HOOK_NAME.sh' is not executable (chmod +x recommended)"
-          ((WARNINGS++))
+          ((WARNINGS++)) || true
         fi
       fi
     fi

@@ -4,7 +4,30 @@
 
 set -e
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# INPUT VALIDATION (SECURITY: OWASP A03 - Injection Prevention)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 PLUGIN_DIR="${1:-.}"
+
+# Security: Prevent directory traversal attacks
+if [[ "$PLUGIN_DIR" == *".."* ]]; then
+  echo "❌ Security Error: Directory traversal not allowed"
+  exit 1
+fi
+
+# Security: Whitelist allowed characters in path
+if [[ ! "$PLUGIN_DIR" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+  echo "❌ Security Error: Invalid characters in path"
+  exit 1
+fi
+
+# Validate directory exists
+if [ ! -d "$PLUGIN_DIR" ]; then
+  echo "❌ Error: Directory does not exist: $PLUGIN_DIR"
+  exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCHEMA_DIR="$SCRIPT_DIR/../schemas"
 ERRORS=0
@@ -17,9 +40,9 @@ echo ""
 find_python() {
   # Try common Python commands across different operating systems
   for py in "python3" "python" "py"; do
-    if command -v "$py" &> /dev/null; then
+    if command -v "$py" &>/dev/null; then
       # Verify it's a real Python installation, not a stub/alias
-      if "$py" --version &> /dev/null; then
+      if "$py" --version &>/dev/null; then
         echo "$py"
         return 0
       fi
@@ -40,10 +63,10 @@ validate_json_syntax() {
     echo "❌ Python not found. Install Python 3 to enable JSON validation."
     echo "   Download: https://www.python.org/downloads/"
     echo "   Skipping JSON syntax validation for: $file"
-    return 0  # Don't fail validation, just skip this check
+    return 0 # Don't fail validation, just skip this check
   fi
 
-  if ! $python_cmd -m json.tool "$file" > /dev/null 2>&1; then
+  if ! $python_cmd -m json.tool "$file" >/dev/null 2>&1; then
     echo "❌ Invalid JSON syntax in: $file"
     $python_cmd -m json.tool "$file" 2>&1 | head -5
     return 1
@@ -54,7 +77,7 @@ validate_json_syntax() {
 # Function to check author/owner field format
 check_author_format() {
   local file=$1
-  local field=$2  # "author" or "owner"
+  local field=$2 # "author" or "owner"
 
   # Check if field is a string (invalid) or object (valid)
   if grep -q "\"$field\":\s*\"" "$file"; then
@@ -73,7 +96,7 @@ PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
 
 if [ ! -f "$PLUGIN_JSON" ]; then
   echo "❌ plugin.json not found at: $PLUGIN_JSON"
-  ((ERRORS++))
+  ((RRORS++)) || true
 else
   if validate_json_syntax "$PLUGIN_JSON"; then
     echo "✅ plugin.json has valid JSON syntax"
@@ -82,7 +105,7 @@ else
     for field in "name" "version" "description" "author"; do
       if ! grep -q "\"$field\"" "$PLUGIN_JSON"; then
         echo "  ❌ Missing required field: $field"
-        ((ERRORS++))
+        ((RRORS++)) || true
       else
         echo "  ✅ Required field present: $field"
       fi
@@ -90,32 +113,40 @@ else
 
     # Check author format
     if ! check_author_format "$PLUGIN_JSON" "author"; then
-      ((ERRORS++))
+      ((ERRORS++)) || true
     fi
 
     # Check version format (semantic versioning)
-    VERSION=$(grep -oP '"version":\s*"\K[^"]+' "$PLUGIN_JSON")
-    if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    VERSION=$(jq -r '.version // empty' "$PLUGIN_JSON" 2>/dev/null || echo "")
+    if [ -z "$VERSION" ]; then
+      echo "  ❌ Missing version field"
+      ((ERRORS++)) || true
+    elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
       echo "  ✅ Version format valid: $VERSION"
     else
       echo "  ❌ Version must be semantic (X.Y.Z): $VERSION"
-      ((ERRORS++))
+      ((ERRORS++)) || true
     fi
 
     # Check description length
-    DESC=$(grep -oP '"description":\s*"\K[^"]+' "$PLUGIN_JSON")
-    DESC_LEN=${#DESC}
-    if [ $DESC_LEN -lt 10 ]; then
-      echo "  ❌ Description too short ($DESC_LEN chars, min 10)"
-      ((ERRORS++))
-    elif [ $DESC_LEN -gt 200 ]; then
-      echo "  ⚠️  Description very long ($DESC_LEN chars, max recommended 200)"
+    DESC=$(jq -r '.description // empty' "$PLUGIN_JSON" 2>/dev/null || echo "")
+    if [ -z "$DESC" ]; then
+      echo "  ❌ Missing description field"
+      ((ERRORS++)) || true
     else
-      echo "  ✅ Description length valid: $DESC_LEN chars"
+      DESC_LEN=${#DESC}
+      if [ $DESC_LEN -lt 10 ]; then
+        echo "  ❌ Description too short ($DESC_LEN chars, min 10)"
+        ((ERRORS++)) || true
+      elif [ $DESC_LEN -gt 200 ]; then
+        echo "  ⚠️  Description very long ($DESC_LEN chars, max recommended 200)"
+      else
+        echo "  ✅ Description length valid: $DESC_LEN chars"
+      fi
     fi
 
   else
-    ((ERRORS++))
+    ((ERRORS++)) || true
   fi
 fi
 
@@ -129,14 +160,14 @@ if [ -f "$HOOKS_JSON" ]; then
     echo "✅ .hooks.json has valid JSON syntax"
 
     # Check if hooks field exists
-    if ! grep -q "\"hooks\"" "$HOOKS_JSON"; then
+    if ! jq -e '.hooks' "$HOOKS_JSON" >/dev/null 2>&1; then
       echo "  ⚠️  .hooks.json missing 'hooks' field"
-      ((ERRORS++))
+      ((ERRORS++)) || true
     else
       echo "  ✅ hooks field present"
     fi
   else
-    ((ERRORS++))
+    ((ERRORS++)) || true
   fi
 else
   echo "ℹ️  .hooks.json not found (optional)"
@@ -152,14 +183,14 @@ if [ -f "$MCP_JSON" ]; then
     echo "✅ .mcp.json has valid JSON syntax"
 
     # Check if mcpServers field exists
-    if ! grep -q "\"mcpServers\"" "$MCP_JSON"; then
+    if ! jq -e '.mcpServers' "$MCP_JSON" >/dev/null 2>&1; then
       echo "  ⚠️  .mcp.json missing 'mcpServers' field"
-      ((ERRORS++))
+      ((ERRORS++)) || true
     else
       echo "  ✅ mcpServers field present"
     fi
   else
-    ((ERRORS++))
+    ((ERRORS++)) || true
   fi
 else
   echo "ℹ️  .mcp.json not found (optional)"
@@ -176,9 +207,9 @@ if [ -f "$MARKETPLACE_JSON" ]; then
 
     # Check required fields
     for field in "name" "owner" "description" "version" "plugins"; do
-      if ! grep -q "\"$field\"" "$MARKETPLACE_JSON"; then
+      if ! jq -e ".$field" "$MARKETPLACE_JSON" >/dev/null 2>&1; then
         echo "  ❌ Missing required field: $field"
-        ((ERRORS++))
+        ((ERRORS++)) || true
       else
         echo "  ✅ Required field present: $field"
       fi
@@ -186,20 +217,23 @@ if [ -f "$MARKETPLACE_JSON" ]; then
 
     # Check owner format
     if ! check_author_format "$MARKETPLACE_JSON" "owner"; then
-      ((ERRORS++))
+      ((ERRORS++)) || true
     fi
 
     # Check version format
-    VERSION=$(grep -oP '"version":\s*"\K[^"]+' "$MARKETPLACE_JSON" | head -1)
-    if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    VERSION=$(jq -r '.version // empty' "$MARKETPLACE_JSON" 2>/dev/null || echo "")
+    if [ -z "$VERSION" ]; then
+      echo "  ❌ Missing version field"
+      ((ERRORS++)) || true
+    elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
       echo "  ✅ Version format valid: $VERSION"
     else
       echo "  ❌ Version must be semantic (X.Y.Z): $VERSION"
-      ((ERRORS++))
+      ((ERRORS++)) || true
     fi
 
   else
-    ((ERRORS++))
+    ((ERRORS++)) || true
   fi
 else
   echo "ℹ️  marketplace.json not found (optional if not marketplace root)"
