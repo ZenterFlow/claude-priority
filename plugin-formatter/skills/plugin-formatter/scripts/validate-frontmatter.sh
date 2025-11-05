@@ -76,7 +76,6 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
       # Check name field
       if echo "$FRONTMATTER" | grep -q "^name:"; then
         FRONT_NAME=$(echo "$FRONTMATTER" | grep "^name:" | sed 's/name:\s*//' | tr -d ' ')
-        HAS_NAME=true
 
         if [ "$FRONT_NAME" != "$SKILL_NAME" ]; then
           echo "  ❌ Frontmatter name '$FRONT_NAME' doesn't match directory '$SKILL_NAME'"
@@ -92,13 +91,12 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
       # Check description field
       if echo "$FRONTMATTER" | grep -q "^description:"; then
         DESC=$(echo "$FRONTMATTER" | grep "^description:" | sed 's/description:\s*//')
-        HAS_DESC=true
         DESC_LEN=${#DESC}
 
-        if [ $DESC_LEN -lt 10 ]; then
+        if [ "$DESC_LEN" -lt 10 ]; then
           echo "  ❌ Description too short ($DESC_LEN chars, min 10)"
           ((RRORS++)) || true
-        elif [ $DESC_LEN -gt 200 ]; then
+        elif [ "$DESC_LEN" -gt 200 ]; then
           echo "  ⚠️  Description very long ($DESC_LEN chars, recommended max 200)"
           ((WARNINGS++)) || true
         else
@@ -112,7 +110,6 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
       # Check license field
       if echo "$FRONTMATTER" | grep -q "^license:"; then
         LICENSE=$(echo "$FRONTMATTER" | grep "^license:" | sed 's/license:\s*//' | tr -d ' ')
-        HAS_LICENSE=true
 
         # Check if license is from valid enum
         VALID_LICENSES="MIT Apache-2.0 GPL-3.0 BSD-3-Clause CC-BY-SA Unlicense"
@@ -175,10 +172,10 @@ if [ -d "$PLUGIN_DIR/commands" ]; then
         DESC=$(echo "$FRONTMATTER" | grep "^description:" | sed 's/description:\s*//')
         DESC_LEN=${#DESC}
 
-        if [ $DESC_LEN -lt 5 ]; then
+        if [ "$DESC_LEN" -lt 5 ]; then
           echo "  ❌ Description too short ($DESC_LEN chars, min 5)"
           ((RRORS++)) || true
-        elif [ $DESC_LEN -gt 100 ]; then
+        elif [ "$DESC_LEN" -gt 100 ]; then
           echo "  ⚠️  Description very long ($DESC_LEN chars, recommended max 100)"
           ((WARNINGS++)) || true
         else
