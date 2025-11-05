@@ -69,9 +69,6 @@ if [ -d "$PLUGIN_DIR/skills" ]; then
       fi
 
       # Check required fields
-      HAS_NAME=false
-      HAS_DESC=false
-      HAS_LICENSE=false
 
       # Check name field
       if echo "$FRONTMATTER" | grep -q "^name:"; then
