@@ -39,7 +39,7 @@ fi
 
 # Provide context if message is very short
 MESSAGE_LENGTH=${#USER_MESSAGE}
-if [ $MESSAGE_LENGTH -lt 5 ]; then
+if [ "$MESSAGE_LENGTH" -lt 5 ]; then
   echo "💡 Available commands:"
   echo "   /show-status - Project status summary"
   echo "   /update-backlog - Add backlog items"

@@ -28,7 +28,6 @@ if [ ! -d "$PLUGIN_DIR" ]; then
   exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ERRORS=0
 
 echo "🔍 Validating JSON files in: $PLUGIN_DIR"
