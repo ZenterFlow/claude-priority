@@ -29,7 +29,6 @@ if [ ! -d "$PLUGIN_DIR" ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCHEMA_DIR="$SCRIPT_DIR/../schemas"
 ERRORS=0
 
 echo "🔍 Validating JSON files in: $PLUGIN_DIR"
@@ -57,7 +56,8 @@ find_python() {
 # Function to validate JSON syntax
 validate_json_syntax() {
   local file=$1
-  local python_cmd=$(find_python)
+  local python_cmd
+  python_cmd=$(find_python)
 
   if [ -z "$python_cmd" ]; then
     echo "❌ Python not found. Install Python 3 to enable JSON validation."
@@ -135,10 +135,10 @@ else
       ((ERRORS++)) || true
     else
       DESC_LEN=${#DESC}
-      if [ $DESC_LEN -lt 10 ]; then
+      if [ "$DESC_LEN" -lt 10 ]; then
         echo "  ❌ Description too short ($DESC_LEN chars, min 10)"
         ((ERRORS++)) || true
-      elif [ $DESC_LEN -gt 200 ]; then
+      elif [ "$DESC_LEN" -gt 200 ]; then
         echo "  ⚠️  Description very long ($DESC_LEN chars, max recommended 200)"
       else
         echo "  ✅ Description length valid: $DESC_LEN chars"
